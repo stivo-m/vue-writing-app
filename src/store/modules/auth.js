@@ -8,9 +8,10 @@ const state = {
 	isAuthenticated: false,
 };
 const getters = {
-	getUser: (state) => state.orders,
+	getUser: (state) => state.user,
 	getErrors: (state) => state.errors,
 	getAuthState: (state) => state.isAuthenticating,
+	isLoggedIn: (state) => state.isAuthenticated,
 };
 const actions = {
 	login: async ({ commit }, userData) => {
@@ -31,7 +32,6 @@ const actions = {
 			if (!error.response) {
 				// network error
 				const errorStatus = "Please Check your internet Connection ";
-				console.log("Please check your internet connection.");
 				commit("error", errorStatus);
 			} else {
 				commit("setAuthenticatingState", false);
@@ -54,6 +54,8 @@ const actions = {
 			//commit changes
 			commit("setUser", user.user);
 			commit("setAuthenticatingState", false);
+
+			return user.user;
 		} catch (error) {
 			commit("setAuthenticatingState", false);
 			localStorage.removeItem("token");

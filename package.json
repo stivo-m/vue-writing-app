@@ -16,7 +16,10 @@
 		"moment": "^2.26.0",
 		"popper.js": "^1.16.1",
 		"vue": "^2.6.11",
+		"vue-confirm-dialog": "^1.0.2",
 		"vue-router": "^3.2.0",
+		"vue-stripe": "^0.1.52",
+		"vue-stripe-checkout": "^3.3.2",
 		"vuex": "^3.4.0"
 	},
 	"devDependencies": {
@@ -33,7 +36,7 @@
 		"vue-template-compiler": "^2.6.11"
 	},
 	"eslintConfig": {
-		"root": true,
+		"root": false,
 		"env": {
 			"node": true
 		},
@@ -45,7 +48,8 @@
 			"parser": "babel-eslint"
 		},
 		"rules": {
-			"no-unused-vars": "off"
+			"no-unused-vars": "off",
+			"no-irregular-whitespace": "off"
 		}
 	},
 	"browserslist": [

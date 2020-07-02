@@ -1,8 +1,10 @@
 import Vue from "vue";
+
 import "./plugins/axios";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import VueConfirmDialog from "vue-confirm-dialog";
 
 //bootstrap imports
 
@@ -14,6 +16,7 @@ import "../src/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css";
 
 import "../src/assets/plugins/jqvmap/jqvmap.min.css";
 import "../src/assets/css/adminlte.min.css";
+import "../src/assets/css/styles.css";
 
 import "../src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css";
 import "../src/assets/plugins/daterangepicker/daterangepicker.css";
@@ -42,7 +45,16 @@ import "../src/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.
 import "popper.js/dist/popper.min.js";
 import "../src/assets/js/adminlte.min.js";
 
+import { VueStripeCheckout } from "vue-stripe-checkout";
+
+// Vue.use(
+// 	VueStripeCheckout,
+// 	"pk_test_51GulIbBJQCOzVUPo1wi9vSTHnZDYmuJzBCWfCID547QwCMKWsh8tWeVWmDDNRG7rWABkth0UQyqMfRnh2qx6diGM0027ljwiI8",
+// );
+
 Vue.config.productionTip = false;
+Vue.use(VueConfirmDialog);
+Vue.component("vue-confirm-dialog", VueConfirmDialog.default);
 
 new Vue({
 	router,

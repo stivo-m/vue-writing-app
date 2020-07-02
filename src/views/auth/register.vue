@@ -8,6 +8,21 @@
 			<div class="card">
 				<div class="card-body register-card-body">
 					<p class="login-box-msg">Register a new account</p>
+					<div
+						v-for="error in getErrors"
+						:key="error"
+						class="alert alert-danger alert-dismissible"
+					>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="alert"
+							aria-hidden="true"
+						>
+							&times;
+						</button>
+						{{ error }}
+					</div>
 
 					<form v-on:submit="onSubmit">
 						<div class="input-group mb-3">
@@ -91,18 +106,6 @@
 						</div>
 					</form>
 
-					<div class="social-auth-links text-center">
-						<p>- OR -</p>
-						<a href="#" class="btn btn-block btn-primary">
-							<i class="fab fa-facebook mr-2"></i>
-							Sign up using Facebook
-						</a>
-						<a href="#" class="btn btn-block btn-danger">
-							<i class="fab fa-google-plus mr-2"></i>
-							Sign up using Google+
-						</a>
-					</div>
-
 					<router-link to="/customer" class="text-center"
 						>Already a member, login?</router-link
 					>
@@ -129,7 +132,7 @@
 		},
 
 		methods: {
-			...mapActions(["register"]),
+			...mapActions(["register", "setError"]),
 
 			onSubmit(e) {
 				e.preventDefault();
@@ -140,12 +143,18 @@
 					!this.name ||
 					!this.password ||
 					!this.confirmPassword
-				)
+				) {
+					this.setError("One or More fields is empty");
 					return console.log("One or More fields is empty");
-
-				if (this.password != this.confirmPassword)
+				}
+				if (this.password.length < 6) {
+					this.setError("Password must be more than 6 characters");
+					return;
+				}
+				if (this.password != this.confirmPassword) {
+					this.setError("Passwords did not match");
 					return console.log("Passwords did not match");
-
+				}
 				//if all tests are passed, proceed to register the user
 				const user = {
 					name: this.name,
@@ -154,8 +163,23 @@
 					role: "customer",
 				};
 
-				this.register(user);
+				this.register(user)
+					.then((currentUser) => {
+						if (currentUser) {
+							//console.log(currentUser);
+							this.$router.push("/customer/dashboard");
+							return;
+						} else {
+							this.setError("Action cannot be completed at this time");
+							console.log("User is Null");
+						}
+					})
+					.catch((err) => console.log(err));
 			},
+		},
+
+		computed: {
+			...mapGetters(["getUser", "getErrors", "getAuthState"]),
 		},
 	};
 </script>

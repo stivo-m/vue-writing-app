@@ -1,8 +1,9 @@
 import axios from "axios";
 const base_url = "http://localhost:5000/api/customers/orders";
-
+const stripeUrl = "http://localhost:5000/api/customers/stripe";
 const state = {
 	orders: [],
+	pending: [],
 	orderErrors: [],
 };
 const getters = {
@@ -71,11 +72,42 @@ const actions = {
 		}
 	},
 
+	payForOrder: async ({ commit }, order) => {
+		commit("clearErrors");
+		try {
+			//attempt to pay
+			const res = await axios.post(stripeUrl, order);
+			const data = res.data;
+			//commit("addOrder", data.data);
+
+			commit("orderError", data.text);
+			return data;
+		} catch (error) {
+			commit("orderError", error.response.data.text);
+		}
+	},
+
 	// update order details
 	updateOrder: async ({ commit }, id) => {},
 
 	//deletes an order
-	deleteOrder: async ({ commit }, id) => {},
+	deleteOrder: async ({ commit }, id) => {
+		//attempt to delete from db
+		console.log("deleting order");
+		const res = await axios
+			.delete(base_url + "/" + id)
+			.catch((err) => console.log("Delete Error: " + err));
+		console.log(" order deleted from db");
+		const data = res.data;
+		console.log("  deleting from local db");
+		//delete the order from the list of orders in local db
+		const ords = state.orders.filter((order) => order._id != id);
+		console.log(" order deleted from local db");
+		commit("setOrders", ords);
+
+		//console.log(data);
+		//return data;
+	},
 };
 const mutations = {
 	setOrders: (state, orders) => (state.orders = orders),

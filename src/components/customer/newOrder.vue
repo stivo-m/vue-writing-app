@@ -12,7 +12,7 @@
             </h5>
 
             <h5 v-if="getOrderErrors">
-              <hr />
+              <hr v-if="getOrderErrors" />
               <div v-for="(error, index) in getOrderErrors" :key="index">
                 <p class="text-danger">
                   <i class="fas fa-bell mr-2"></i>
