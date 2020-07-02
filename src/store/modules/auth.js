@@ -1,5 +1,5 @@
 import axios from "axios";
-const base_url = "http://localhost:5000/api/auth/";
+const base_url = "api/auth/";
 
 const state = {
 	user: {},

@@ -1,6 +1,6 @@
 import axios from "axios";
-const base_url = "http://localhost:5000/api/customers/orders";
-const stripeUrl = "http://localhost:5000/api/customers/stripe";
+const base_url = "api/customers/orders";
+const stripeUrl = "api/customers/stripe";
 const state = {
 	orders: [],
 	pending: [],
