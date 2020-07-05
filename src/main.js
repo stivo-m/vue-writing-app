@@ -45,13 +45,6 @@ import "../src/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.
 import "popper.js/dist/popper.min.js";
 import "../src/assets/js/adminlte.min.js";
 
-import { VueStripeCheckout } from "vue-stripe-checkout";
-
-// Vue.use(
-// 	VueStripeCheckout,
-// 	"pk_test_51GulIbBJQCOzVUPo1wi9vSTHnZDYmuJzBCWfCID547QwCMKWsh8tWeVWmDDNRG7rWABkth0UQyqMfRnh2qx6diGM0027ljwiI8",
-// );
-
 Vue.config.productionTip = false;
 Vue.use(VueConfirmDialog);
 Vue.component("vue-confirm-dialog", VueConfirmDialog.default);
