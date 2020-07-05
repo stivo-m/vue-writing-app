@@ -2,7 +2,6 @@
 	<div class="home" id="page-top">
 		<Nav />
 		<Hero />
-
 		<div class="page">
 			<About />
 			<Showcase />
