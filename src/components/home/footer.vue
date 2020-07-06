@@ -227,6 +227,17 @@ p.text-muted {
   grid-template-columns: repeat(2, 1fr);
 }
 
+@media only screen and (max-width: 768px) {
+  .holder {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .calc {
+    margin: 2rem auto;
+  }
+}
+
 .disclaimer {
   display: flex;
   flex-direction: column;

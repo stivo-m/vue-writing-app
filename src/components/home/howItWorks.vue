@@ -77,4 +77,13 @@ section {
   flex-direction: column;
   justify-content: center;
 }
+
+.steps .title {
+  font-weight: 100;
+  font-size: 1.6rem;
+}
+
+.steps p {
+  line-height: 2;
+}
 </style>
