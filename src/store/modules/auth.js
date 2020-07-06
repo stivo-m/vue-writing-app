@@ -6,12 +6,14 @@ const state = {
 	errors: [],
 	isAuthenticating: false,
 	isAuthenticated: false,
+	isAdmin: false,
 };
 const getters = {
 	getUser: (state) => state.user,
 	getErrors: (state) => state.errors,
 	getAuthState: (state) => state.isAuthenticating,
 	isLoggedIn: (state) => state.isAuthenticated,
+	isAdmin: (state) => state.isAdmin,
 };
 const actions = {
 	login: async ({ commit }, userData) => {
@@ -25,7 +27,9 @@ const actions = {
 			localStorage.setItem("token", user.token);
 
 			//commit changes
-			commit("setUser", user.user);
+			user.user.role == "admin"
+				? commit("setAdmin", user.user)
+				: commit("setUser", user.user);
 			commit("setAuthenticatingState", false);
 			return user.user;
 		} catch (error) {
@@ -111,6 +115,19 @@ const mutations = {
 			return;
 		}
 		state.user = user;
+		state.isAuthenticated = true;
+		state.isAuthenticating = false;
+	},
+	setAdmin: (state, user) => {
+		if (!user) {
+			state.user = null;
+			state.isAuthenticating = false;
+			state.isAuthenticated = false;
+			state.isAdmin = false;
+			return;
+		}
+		state.user = user;
+		state.isAdmin = true;
 		state.isAuthenticated = true;
 		state.isAuthenticating = false;
 	},

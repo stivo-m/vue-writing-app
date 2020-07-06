@@ -3,7 +3,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <span class="brand-text font-weight-light">Customer Dashoard</span>
+      <span class="brand-text font-weight-light">Admin Dashoard</span>
     </a>
 
     <!-- Sidebar -->
@@ -36,11 +36,11 @@
           role="menu"
           data-accordion="false"
         >
-          <!-- Add icons to the customerLinks using the .nav-icon class
+          <!-- Add icons to the adminLinks using the .nav-icon class
           with font-awesome or any other icon font library-->
 
           <li
-            v-for="(link, index) in customerLinks"
+            v-for="(link, index) in adminLinks"
             :key="index"
             :class="[
 							'{{link.children}}'
@@ -93,11 +93,11 @@ export default {
       user: this.getUser,
       route: null,
 
-      customerLinks: [
+      adminLinks: [
         {
           title: "Dashboard",
           icon: "fas fa-tachometer-alt",
-          link: "/customer/dashboard"
+          link: "/admin/dashboard"
         },
 
         {
@@ -108,24 +108,24 @@ export default {
           children: [
             {
               title: "New Order",
-              link: "/customer/orders/add"
+              link: "/admin/orders/add"
             },
             {
               title: "Pending Orders",
-              link: "/customer/orders/pending"
+              link: "/admin/orders/pending"
             },
             {
               title: "Completed Orders",
-              link: "/customer/orders/completed"
+              link: "/admin/orders/completed"
             },
             {
               title: "Waiting Approval",
-              link: "/customer/orders/waiting"
+              link: "/admin/orders/waiting"
             },
 
             {
               title: "Finished Orders",
-              link: "/customer/orders/finished"
+              link: "/admin/orders/finished"
             }
           ]
         },
@@ -133,7 +133,7 @@ export default {
         {
           title: "Settings",
           icon: "fas fa-cog",
-          link: "/customer/settings"
+          link: "/admin/settings"
         }
       ]
     };
@@ -161,7 +161,7 @@ export default {
           if (confirm) {
             this.logout();
             this.setError("You logged out successfully");
-            this.$router.push("/customer");
+            this.$router.push("/admin");
           }
         }
       });

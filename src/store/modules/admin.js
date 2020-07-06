@@ -1,18 +1,31 @@
 import axios from "axios";
-const base_url = "api/customers/orders";
-const stripeUrl = "api/customers/stripe";
+const base_url = "api/admin/orders";
+const customers_url = "api/admin/customers";
 const state = {
 	orders: [],
-	pending: [],
+	customers: [],
 	orderErrors: [],
 };
 const getters = {
-	getOrders: (state) => state.orders,
-	getOrderErrors: (state) => state.orderErrors,
+	getAdminOrders: (state) => state.orders,
+	adminGetCustomers: (state) => state.customers,
 };
 const actions = {
+	//get all customers from the db
+	adminSetCustomers: async ({ commit }) => {
+		//set headers
+		const config = {
+			headers: {
+				"Content-type": "Application/json",
+				"x-writing-key": localStorage.getItem("token"),
+			},
+		};
+		const res = await axios.get(customers_url, config);
+		const data = res.data;
+		commit("adminSetCustomers", data);
+	},
 	//fetches orders from the api and updates them in the array
-	setOrders: async ({ commit }) => {
+	adminSetOrders: async ({ commit }) => {
 		//set headers
 		const config = {
 			headers: {
@@ -26,7 +39,7 @@ const actions = {
 	},
 
 	//adds a new order to the system
-	addOrder: async ({ commit }, orderDetails) => {
+	adminAddOrder: async ({ commit }, orderDetails) => {
 		commit("clearErrors");
 		try {
 			//set headers
@@ -49,7 +62,7 @@ const actions = {
 	},
 
 	//dets a single order
-	getOrderById: async ({ commit }, id) => {
+	adminSetOrderById: async ({ commit }, id) => {
 		commit("clearErrors");
 		try {
 			//set headers
@@ -62,10 +75,9 @@ const actions = {
 
 			//attempt to get an order
 			const res = await axios.get(base_url + "/" + id, config);
-			const data = await res.data;
+			const data = res.data;
 			//TODO:return the order
 			commit("addOrder", data);
-			console.log("Order" + res);
 			return data;
 		} catch (error) {
 			console.log(error);
@@ -73,26 +85,11 @@ const actions = {
 		}
 	},
 
-	payForOrder: async ({ commit }, order) => {
-		commit("clearErrors");
-		try {
-			//attempt to pay
-			const res = await axios.post(stripeUrl, order);
-			const data = res.data;
-			//commit("addOrder", data.data);
-
-			commit("orderError", data.text);
-			return data;
-		} catch (error) {
-			commit("orderError", error.response.data.text);
-		}
-	},
-
 	// update order details
-	updateOrder: async ({ commit }, id) => {},
+	adminUpdateOrder: async ({ commit }, id) => {},
 
 	//deletes an order
-	deleteOrder: async ({ commit }, id) => {
+	adminDeleteOrder: async ({ commit }, id) => {
 		//attempt to delete from db
 		console.log("deleting order");
 		const res = await axios
@@ -103,6 +100,7 @@ const actions = {
 		console.log("  deleting from local db");
 		//delete the order from the list of orders in local db
 		const ords = state.orders.filter((order) => order._id != id);
+		console.log(" order deleted from local db");
 		commit("setOrders", ords);
 
 		//console.log(data);
@@ -111,6 +109,7 @@ const actions = {
 };
 const mutations = {
 	setOrders: (state, orders) => (state.orders = orders),
+	adminSetCustomers: (state, customers) => (state.customers = customers),
 	addOrder: (state, order) => state.orders.unshift(order),
 	orderError: (state, error) => state.orderErrors.push(error),
 	clearErrors: (state) => (state.orderErrors = []),

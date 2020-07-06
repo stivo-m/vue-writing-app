@@ -323,6 +323,8 @@ export default {
 
   async created() {
     this.order = await this.getOrderById(this.$router.currentRoute.params.id);
+
+    console.log(this.order);
   }
 };
 </script>
